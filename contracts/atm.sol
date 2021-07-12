@@ -17,10 +17,25 @@ contract ATM {
         balances[msg.sender] -= amount;
     }
 
-    function transfer(address receiver, uint amount) public {
-        require(balances[msg.sender] >= amount, "Insufficient funds");
-        emit Transfer(msg.sender, receiver, amount);
-        balances[msg.sender] -= amount;
-        balances[receiver] += amount;
+    // function transfer(address payable receiver, uint amount) payable public {
+    //     require(balances[msg.sender] >= amount, "Insufficient funds");
+    //     emit Transfer(msg.sender, receiver, amount);
+    //     balances[msg.sender] -= amount;
+    //     balances[receiver] += amount;
+       
+    // //    (bool sent, bytes memory data) = receiver.call{value: msg.value}("");
+    // //     require(sent, "Failed to send Ether");
+
+    //     bool sent = receiver.send(msg.value);
+    //     require(sent, "Failed to send Ether");
+    // }
+
+    function getBalance(address addr) public view returns (uint){
+        return balances[addr];
     }
+
+    function sendEther(address payable recipient) external{
+        recipient.transfer(1 ether);
+    }
+
 }

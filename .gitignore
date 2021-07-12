@@ -1,0 +1,9 @@
+
+build/contracts/Voting.json
+build/contracts/Migrations.json
+build/contracts/Bet.json
+build/contracts/ATM.json
+build/contracts/Voting.json
+build/contracts/Migrations.json
+build/contracts/Bet.json
+*.json
