@@ -51,7 +51,7 @@ App = {
         }).watch(function(error, event) {
           console.log("event triggered", event)
           // Reload when a new vote is recorded
-          App.render();
+          //App.render();
         });
       });
     },
@@ -112,25 +112,27 @@ App = {
           betPositionSelect.append(betOption);
         });
       }
+
+      bettingInstance.isBetsClosed().then(function(instance){
+        console.log("bets close" + instance );
+        
+        if(instance){
+          $("#claimProfit").show();
+        }else{
+          $("#claimProfit").hide();
+        }
+      });
+
       return bettingInstance.bettors(App.account);
     }).then(function(bettor) {
       console.log("has placed bets : "+bettor[1]);
       // Do not allow a bettor to bet if already bet
       if(bettor[1]) {
-        //$('form').hide();
+        $('form').hide();
       }
       loader.hide();
       content.show();
       return bettingInstance;
-    }).then(function(isBetsClosed){
-        if(isBetsClosed){
-          //$('form').hide();
-          //$("#claimProfit").show();
-        }
-        loader.hide();
-        content.show();
-    }).catch(function(error) {
-      console.warn(error);
     });
   },
 
@@ -139,7 +141,6 @@ App = {
     App.contracts.Bet.deployed().then(function(instance) {
       return instance.bet(betPositionId, { from: App.account, value : 1000000000000000000 });
     }).then(function(result) {
-      // Wait for votes to update
       $("#content").hide();
       $("#loader").show();
     }).catch(function(err) {
@@ -153,7 +154,6 @@ App = {
     App.contracts.Bet.deployed().then(function(instance) {
       return instance.claimEth({ from: App.account});
     }).then(function(result) {
-      // Wait for votes to update
       $("#content").hide();
       $("#loader").show();
     }).catch(function(err) {
